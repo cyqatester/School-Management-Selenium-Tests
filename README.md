@@ -1,108 +1,169 @@
-# School Management System – Selenium, Maven, TestNG & REST Assured
+# School Management System – Selenium Test Automation
 
-Java automation framework converted from the supplied Playwright/TypeScript project.
+## Short Description of the Project
 
-## Technology stack
+This project is a Java-based test automation framework for the School Management System. It was converted from the original Playwright/TypeScript project to use Selenium WebDriver and TestNG for UI testing, and REST Assured for API testing.
 
-- Java 17
-- Selenium WebDriver for browser automation
-- Maven for dependency management and build execution
-- TestNG for test lifecycle, assertions, suite execution and reporting
-- REST Assured for HTTP API tests
-- WebDriverManager for local browser-driver setup
-- GitHub Actions for CI
+The framework automates essential application checks, including page loading, login functionality, and role-based dashboards for administrators, teachers, and students. It also supports automated execution through GitHub Actions.
 
-## Project structure
+## Technologies
+
+The project uses the following technologies and tools:
+
+- **Java 17** – Programming language.
+- **Selenium WebDriver** – Browser automation for UI testing.
+- **Maven** – Dependency management and test execution.
+- **TestNG** – Test organization, execution, assertions, and reporting.
+- **REST Assured** – API testing.
+- **WebDriverManager** – Automatic browser driver setup.
+- **GitHub Actions** – Continuous Integration (CI).
+- **Google Chrome / Mozilla Firefox** – Supported browsers.
+
+## Features
+
+### UI Automation Testing
+- Verify that the application homepage loads successfully.
+- Verify that the login page displays the username, password, and Sign In controls.
+- Test authenticated login when admin credentials are provided.
+- Verify that the admin dashboard displays the expected profile and account management sections.
+- Test admin account creation and deletion.
+- Verify that the student dashboard displays profile information and assigned teachers.
+- Verify that the teacher dashboard displays profile information and assigned students.
+
+### API Automation Testing
+- Verify that the application root responds successfully without a server error.
+- Verify that unauthenticated requests to `GET api/me` redirect to the login page.
+
+### Additional Features
+- Support for Chrome and Firefox browsers.
+- Headless and headed browser execution.
+- Configurable application URL and test credentials.
+- Separate execution of UI and API test groups.
+- Screenshots captured when UI tests fail.
+- TestNG reports generated after test execution.
+- Automated test execution through GitHub Actions.
+
+## The Process
+
+The automation framework follows the Page Object Model (POM) design pattern to organize browser interactions and make the tests easier to maintain.
+
+### 1. Configuration
+The framework reads application settings, browser preferences, and test credentials from environment variables or Maven system properties.
+
+### 2. WebDriver Setup
+The DriverFactory initializes the selected browser using Selenium WebDriver and WebDriverManager. It also configures browser options, including headless execution.
+
+### 3. Page Object Model
+Page classes contain the locators and methods used to interact with the application.
+
+These include:
+- BasePage
+- HomePage
+- LoginPage
+- DashboardPage
+- AdminDashboardPage
+- StudentDashboardPage
+- TeacherDashboardPage
+
+### 4. UI Test Execution
+TestNG executes the UI test classes, which use the page objects to interact with the application and verify expected behavior.
+
+### 5. API Test Execution
+REST Assured sends HTTP requests to the application and validates the returned status codes and response headers.
+
+### 6. Reporting
+TestNG generates test execution reports. Screenshots of failed UI tests are saved in the screenshots directory.
+
+### 7. Continuous Integration
+GitHub Actions automatically executes the Maven test suite when changes are pushed or pull requests are created for the configured branches. The workflow can also be triggered manually.
+
+## Running The Project
+
+### Prerequisites
+
+Before running the tests, make sure you have installed:
+
+- JDK 17 or higher
+- Apache Maven 3.9 or higher
+- Google Chrome or Mozilla Firefox
+- A deployed and accessible School Management System application
+
+The default application URL is:
 
 ```text
-School-Management-Selenium-TestNG-RestAssured/
-├── .github/workflows/maven-tests.yml
-├── src/test/java/com/schoolmanagement/
-│   ├── config/Config.java
-│   ├── driver/DriverFactory.java
-│   ├── pages/
-│   │   ├── BasePage.java
-│   │   ├── HomePage.java
-│   │   ├── LoginPage.java
-│   │   ├── DashboardPage.java
-│   │   ├── AdminDashboardPage.java
-│   │   ├── StudentDashboardPage.java
-│   │   └── TeacherDashboardPage.java
-│   └── tests/
-│       ├── BaseTest.java
-│       ├── web/
-│       │   ├── HomeTest.java
-│       │   ├── LoginTest.java
-│       │   ├── AdminDashboardTest.java
-│       │   ├── StudentDashboardTest.java
-│       │   └── TeacherDashboardTest.java
-│       └── api/
-│           ├── ApiBaseTest.java
-│           ├── HealthApiTest.java
-│           └── AuthApiTest.java
-├── .env.example
-├── .gitignore
-├── pom.xml
-├── testng.xml
-└── README.md
+http://localhost:8080/school-management-system/
 ```
 
-## Prerequisites
+### 1. Clone the Repository
 
-- JDK 17+
-- Apache Maven 3.9+
-- Google Chrome (default) or Firefox
-- The School Management System application deployed and reachable
+```bash
+git clone https://github.com/cyqatester/School-Management-Selenium-Tests.git
+cd School-Management-Selenium-Tests
+```
 
-The default application URL is `http://localhost:8080/school-management-system/`.
+### 2. Configure Test Credentials
 
-## Configuration
+You can provide credentials through environment variables or Maven system properties.
 
-Configuration can be supplied as environment variables or Maven system properties. Maven properties take precedence over environment variables.
+| Setting | Environment Variable | Maven Property |
+|---|---|---|
+| Application URL | `BASE_URL` | `base.url` |
+| Browser | `BROWSER` | `browser` |
+| Headless mode | `HEADLESS` | `headless` |
+| Admin username | `E2E_USERNAME` | `e2e.username` |
+| Admin password | `E2E_PASSWORD` | `e2e.password` |
+| Student username | `STUDENT_USERNAME` | `student.username` |
+| Student password | `STUDENT_PASSWORD` | `student.password` |
+| Teacher username | `TEACHER_USERNAME` | `teacher.username` |
+| Teacher password | `TEACHER_PASSWORD` | `teacher.password` |
 
-| Setting | Environment variable | Maven property | Default |
-|---|---|---|---|
-| Target environment label | `TEST_ENV` | `test.env` | `dev` |
-| Application URL | `BASE_URL` | `base.url` | `http://localhost:8080/school-management-system/` |
-| Browser | `BROWSER` | `browser` | `chrome` |
-| Headless mode | `HEADLESS` | `headless` | `true` |
-| Login path | `LOGIN_PATH` | `login.path` | `login` |
-| Admin test username | `E2E_USERNAME` | `e2e.username` | blank |
-| Admin test password | `E2E_PASSWORD` | `e2e.password` | blank |
-| Student username | `STUDENT_USERNAME` | `student.username` | `student` |
-| Student password | `STUDENT_PASSWORD` | `student.password` | `student1234` |
-| Teacher username | `TEACHER_USERNAME` | `teacher.username` | `teacher` |
-| Teacher password | `TEACHER_PASSWORD` | `teacher.password` | `teacher1234` |
+Maven system properties take precedence over environment variables.
 
-Do not commit real credentials. Configure secrets in GitHub Actions for CI. The `.env.example` file is documentation only; this project deliberately does not load `.env` files automatically.
+Do not commit real credentials to the repository. The `.env.example` file is provided for documentation and is not loaded automatically.
 
-## Run tests
+### 3. Run All Tests
 
-Run the complete TestNG suite:
+Execute the complete TestNG test suite:
 
 ```bash
 mvn clean test
 ```
 
-Set the application URL:
+### 4. Run UI Tests Only
 
 ```bash
-mvn clean test -Dbase.url=http://localhost:8080/school-management-system/
+mvn test -Dgroups=web
 ```
 
-Run in a visible Chrome browser:
+### 5. Run API Tests Only
+
+```bash
+mvn test -Dgroups=api
+```
+
+### 6. Run Tests in Headed Mode
+
+To open the browser while tests are running:
 
 ```bash
 mvn clean test -Dheadless=false
 ```
 
-Use Firefox:
+To use Firefox:
 
 ```bash
 mvn clean test -Dbrowser=firefox
 ```
 
-Provide admin credentials to enable the admin and optional login tests:
+### 7. Run Tests with a Specific Application URL
+
+```bash
+mvn clean test -Dbase.url=http://localhost:8080/school-management-system/
+```
+
+### 8. Run Tests with Admin Credentials
+
+Admin dashboard tests and the optional authenticated login test require admin credentials:
 
 ```bash
 mvn clean test \
@@ -110,7 +171,9 @@ mvn clean test \
   -De2e.password=your_admin_password
 ```
 
-Set the student and teacher accounts if the application uses different test users:
+### 9. Configure Student and Teacher Accounts
+
+If your application uses different seeded test accounts, provide the appropriate credentials:
 
 ```bash
 mvn clean test \
@@ -120,55 +183,40 @@ mvn clean test \
   -Dteacher.password=teacher1234
 ```
 
-Run only API tests:
+### 10. View Test Reports
 
-```bash
-mvn test -Dgroups=api
+After execution, TestNG reports are available in:
+
+```text
+target/surefire-reports/
 ```
 
-Run only UI tests:
+Screenshots captured from failed UI tests are saved in:
 
-```bash
-mvn test -Dgroups=web
+```text
+target/screenshots/
 ```
 
-TestNG results are written to `target/surefire-reports/`. Screenshots for failed UI tests are saved to `target/screenshots/`.
+### 11. Run Tests Through GitHub Actions
 
-## Converted test coverage
+The CI workflow is located at:
 
-### UI tests (Selenium + TestNG)
+```text
+.github/workflows/maven-tests.yml
+```
 
-- Home page loads and has a non-empty body.
-- Login page displays username, password and Sign in controls.
-- Optional authenticated login test when admin credentials are supplied.
-- Admin dashboard displays profile, account management and account creation controls.
-- Admin can create and delete a generated admin account.
-- Student dashboard displays profile and assigned-teachers sections.
-- Teacher dashboard displays profile, Add student and assigned-students sections.
+It runs automatically on pushes and pull requests to the `main`, `master`, and `develop` branches. You can also trigger it manually through the GitHub Actions tab.
 
-### API tests (REST Assured + TestNG)
+Configure the following repository secrets under **Settings → Secrets and variables → Actions**:
 
-- Application root responds with an HTTP status below 500.
-- Unauthenticated `GET api/me` returns HTTP 302 and a `Location` header containing `/login`.
+- `BASE_URL`
+- `E2E_USERNAME`
+- `E2E_PASSWORD`
+- `STUDENT_USERNAME`
+- `STUDENT_PASSWORD`
+- `TEACHER_USERNAME`
+- `TEACHER_PASSWORD`
 
-## GitHub Actions
+**Important:** The GitHub-hosted runner must be able to access the deployed application URL. It cannot access `localhost` on your personal computer. Use a reachable test deployment or a self-hosted runner.
 
-The workflow is `.github/workflows/maven-tests.yml`. It runs on pushes and pull requests to `main`, `master` and `develop`, and can be started manually.
-
-Configure these repository secrets as needed:
-
-- `BASE_URL` (required for tests to execute in CI)
-- `E2E_USERNAME`, `E2E_PASSWORD`
-- `STUDENT_USERNAME`, `STUDENT_PASSWORD`
-- `TEACHER_USERNAME`, `TEACHER_PASSWORD`
-
-A GitHub-hosted runner cannot access `localhost` on your computer. Use a reachable test deployment or a self-hosted runner. Use dedicated test accounts and avoid destructive tests against Production.
-
-## Notes about this conversion
-
-- The existing Playwright page objects and scenarios were mapped to Selenium page objects and TestNG tests.
-- Playwright's label locators were replaced with Selenium XPath locators targeting the actual nested `<input>` elements where form interaction is required.
-- The student and teacher test credentials are configurable; change the defaults if your seeded application accounts differ.
-- The current API tests preserve the two API behaviors documented in the original project. They do not assume additional endpoints.
-- Application-specific selectors and route paths are based on the uploaded test code. If the web application markup or context path changes, update the page objects/configuration accordingly.
-- This is a test automation project; it does not contain or modify the School Management web application itself.
+Use dedicated test accounts and avoid running destructive tests against production data.

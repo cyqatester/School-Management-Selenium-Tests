@@ -40,6 +40,9 @@ jobs:
           java-version: "17"
           cache: maven
 
+      - name: Ensure Maven cache directory exists
+        run: mkdir -p ~/.m2/repository
+
       - name: Run Maven tests
         if: ${{ env.BASE_URL != '' }}
         run: mvn -B clean test -Dbase.url="$BASE_URL" -Dheadless=true

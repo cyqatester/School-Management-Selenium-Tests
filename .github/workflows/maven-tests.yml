@@ -1,0 +1,63 @@
+name: Selenium TestNG REST Assured CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Deployed application URL to test"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Run Maven UI and API tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      BASE_URL: ${{ inputs.base_url || secrets.BASE_URL }}
+      E2E_USERNAME: ${{ secrets.E2E_USERNAME }}
+      E2E_PASSWORD: ${{ secrets.E2E_PASSWORD }}
+      STUDENT_USERNAME: ${{ secrets.STUDENT_USERNAME }}
+      STUDENT_PASSWORD: ${{ secrets.STUDENT_PASSWORD }}
+      TEACHER_USERNAME: ${{ secrets.TEACHER_USERNAME }}
+      TEACHER_PASSWORD: ${{ secrets.TEACHER_PASSWORD }}
+      HEADLESS: "true"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Run Maven tests
+        if: ${{ env.BASE_URL != '' }}
+        run: mvn -B clean test -Dbase.url="$BASE_URL" -Dheadless=true
+
+      - name: Explain skipped tests when BASE_URL is missing
+        if: ${{ env.BASE_URL == '' }}
+        run: |
+          echo "BASE_URL was not provided."
+          echo "Add the BASE_URL repository secret or supply it in workflow_dispatch."
+          echo "No UI or API tests were run."
+
+      - name: Upload TestNG reports and failure screenshots
+        if: always() && env.BASE_URL != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: testng-reports-and-screenshots
+          path: |
+            target/surefire-reports/
+            target/screenshots/
+          if-no-files-found: warn
+          retention-days: 7

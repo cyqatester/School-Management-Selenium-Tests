@@ -1,5 +1,3 @@
-
-https://github.com/user-attachments/assets/ffad68e9-5b93-44ff-87e2-93fdb3c225e3
 # School Management System – Selenium Test Automation
 
 Sample Test Automation Run

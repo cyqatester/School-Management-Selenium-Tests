@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class HomeTest extends BaseTest {
-    @Test(groups = "web")
+    @Test(groups = "web", description = "Verify if the base url is loaded correctly")
     public void applicationBasePageResponds() {
         HomePage home = new HomePage(driver);
         home.open();

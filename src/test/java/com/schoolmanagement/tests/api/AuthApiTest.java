@@ -7,7 +7,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 
 public class AuthApiTest extends ApiBaseTest {
-    @Test(groups = "api")
+    @Test(groups = "api", description = "API - Verify if it redirects to login url")
     public void unauthenticatedCurrentUserRequestRedirectsToLogin() {
         given()
             .redirects().follow(false)

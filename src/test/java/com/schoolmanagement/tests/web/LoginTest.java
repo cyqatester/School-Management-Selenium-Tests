@@ -8,14 +8,14 @@ import org.testng.SkipException;
 import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest {
-    @Test(groups = "web")
+    @Test(groups = "web", description = "Verify is the login elements are visible")
     public void loginPageDisplaysUsernamePasswordAndSignIn() {
         LoginPage login = new LoginPage(driver);
         login.open();
         Assert.assertTrue(login.loginFormVisible(), "Username, password and Sign in controls should be visible");
     }
 
-    @Test(groups = "web")
+    @Test(groups = "web", description = "Verify if a user can login with valid credentials")
     public void configuredUserCanSignIn() {
         if (Config.E2E_USERNAME.isBlank() || Config.E2E_PASSWORD.isBlank()) {
             throw new SkipException("Set E2E_USERNAME and E2E_PASSWORD to enable this authenticated login test.");

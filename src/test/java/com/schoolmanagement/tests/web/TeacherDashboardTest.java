@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TeacherDashboardTest extends BaseTest {
-    @Test(groups = "web")
+    @Test(groups = "web", description = "Verify if a Teacher can login and loads the Dashboard loads correctly")
     public void teacherDashboardDisplaysExpectedSections() {
         LoginPage login = new LoginPage(driver);
         login.open();

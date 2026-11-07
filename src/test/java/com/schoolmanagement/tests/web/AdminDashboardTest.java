@@ -18,7 +18,7 @@ public class AdminDashboardTest extends BaseTest {
         Assert.assertTrue(login.isSignedIn());
     }
 
-    @Test(groups = "web")
+    @Test(groups = "web", description = "Verify if all elements in Admin Dashboard are visible")
     public void adminDashboardDisplaysExpectedSectionsAndControls() {
         signInAdmin();
         AdminDashboardPage admin = new AdminDashboardPage(driver);
@@ -38,7 +38,7 @@ public class AdminDashboardTest extends BaseTest {
         Assert.assertTrue(admin.createFormVisible());
     }
 
-    @Test(groups = "web")
+    @Test(groups = "web", description = "Verify if the Admin User can create and delete another admin")
     public void adminCanCreateAndDeleteAnotherAdmin() {
         signInAdmin();
         AdminDashboardPage admin = new AdminDashboardPage(driver);

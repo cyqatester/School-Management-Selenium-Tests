@@ -7,7 +7,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.lessThan;
 
 public class HealthApiTest extends ApiBaseTest {
-    @Test(groups = "api", description = "API - Verify is the app loads fine")
+    @Test(groups = "api", description = "API - Verify that the application root responds successfully without a server error")
     public void applicationRootIsReachable() {
         given()
             .redirects().follow(true)

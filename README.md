@@ -91,7 +91,7 @@ Before running the tests, make sure you have installed:
 - Apache Maven 3.9 or higher
 - Google Chrome or Mozilla Firefox
 - A deployed and accessible School Management System application
-- An IDE (I recommend VS Code)
+- An IDE that can run Java projects (I recommend VS Code)
 
 The default application URL is:
 

@@ -1,8 +1,10 @@
-# School Management System – Selenium Test Automation
+# School Management System – Selenium and TestNG Test Automation
 
-Sample Test Automation Run
-
-https://github.com/user-attachments/assets/c5c7f044-2b32-419a-b7a0-478649f186a1
+<p>
+<picture>
+  <img width="1280" height="720" alt="School_Management_Selenium_Tests" src="https://github.com/user-attachments/assets/4f6f0846-f72b-45ee-afb0-91413ed850d4" />
+</picture> 
+</p>
 
 ## Short Description of the Project
 
